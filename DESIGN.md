@@ -4,13 +4,13 @@
 Skill de Claude Code que pega num vídeo bruto de um creator (a falar para a câmara) e:
 
 1. **Transcreve** com timestamps por palavra (backend plugável: ElevenLabs / OpenAI / Whisper local).
-2. **Corta em takes ≤ 10s** em pausas naturais da fala — **nunca corta no meio de uma palavra/frase** (limite de 10s é imposto pelo Google Flow).
+2. **Corta em takes ≤ 10s** em pausas naturais da fala — **nunca corta no meio de uma palavra/frase** (limite de 10s é imposto pelo Google Flow / Gemini Omni Flash).
 3. **Extrai** cada take em ficheiro de vídeo + um frame de pré-visualização.
 4. **Entende o contexto** e faz **perguntas de briefing** (layout, overlay vs só-motion, estilo, design.md).
-5. **Gera os prompts** de motion para o Google Flow, **um por take** (apenas texto — o upload dos vídeos para o Flow é feito manualmente pelo utilizador).
+5. **Gera os prompts** de motion para o Google Flow (Gemini Omni Flash), **um por take** (apenas texto — o upload dos vídeos para o Flow é feito manualmente pelo utilizador).
 6. Organiza tudo numa **pasta de projeto** (`takes/`, `frames/`, `prompts/`, `transcript.txt`, `project.yaml`, `README.md`).
 
-A skill **NÃO** gera o motion. A parte do Flow é só o prompt.
+A skill **NÃO** gera o motion. A parte do Flow/Omni é só o prompt.
 
 ## Arquitetura (unidades isoladas)
 
@@ -56,13 +56,13 @@ Para cada take, `ffmpeg -ss start -to end` **com re-encode** (corte preciso ao f
 1. Corre `build_project.py <video> [--out pasta] [--max 10] [--backend …]`.
 2. Lê `transcript.txt` e `takes.json`, entende o contexto.
 3. Faz as perguntas de briefing (uma de cada vez): layout, modo (só-motion / overlay / misto), estilo/preset, design.md.
-4. Para cada take, escreve um prompt de Google Flow em `prompts/take_NN.txt` usando o texto do take + o preset escolhido + o `design.md`.
+4. Para cada take, escreve um prompt de Gemini Omni Flash em `prompts/take_NN.txt` usando o texto do take + o preset escolhido + o `design.md`.
 5. Atualiza `project.yaml` com as respostas e o mapa de takes.
 
 ### Presets e design.md
 - `presets/*.md`: estilos de motion (ex.: `apple-clean`). Definem direção de arte, ritmo, tipografia, do/don't.
 - `templates/design.md`: modelo de brandbook do utilizador (paleta, fontes, layout).
-- `templates/flow-overlay-prompt.md` / `templates/flow-motion-plate-prompt.md`: estrutura recomendada de um bom prompt de Flow.
+- `templates/flow-overlay-prompt.md` / `templates/flow-motion-plate-prompt.md`: estrutura recomendada de um bom prompt de Omni.
 - `references/prompt-craft.md`: guia anti-genérico para prompts ricos.
 
 ## Portabilidade

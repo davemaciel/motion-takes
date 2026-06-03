@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """cut_takes.py — corta uma transcricao (palavras com timestamps) em "takes"
-prontos para o Google Flow.
+prontos para o Google Flow (Gemini Omni Flash).
 
 Regras:
-  * Cada take dura no maximo `max_dur` segundos (default 10.0, limite do Flow).
+  * Cada take dura no maximo `max_dur` segundos (default 10.0, limite do Omni/Flow).
   * Os cortes acontecem em PAUSAS naturais da fala (nunca a meio de uma palavra).
   * Prefere fim de frase (pontuacao . ! ?) e takes nem demasiado curtos.
 
@@ -132,7 +132,7 @@ def _load_words(path: str) -> List[Dict]:
 
 
 def main(argv=None):
-    ap = argparse.ArgumentParser(description="Corta transcricao em takes para o Google Flow.")
+    ap = argparse.ArgumentParser(description="Corta transcricao em takes para o Google Flow (Omni).")
     ap.add_argument("words_json", help="ficheiro words.json (saida de transcribe.py)")
     ap.add_argument("-o", "--out", default="takes.json", help="ficheiro de saida")
     ap.add_argument("--max", type=float, default=10.0, dest="max_dur")

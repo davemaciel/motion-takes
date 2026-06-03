@@ -1,8 +1,12 @@
 # Template — prompt de OVERLAY (motion sobre o creator)
 
-Usa quando o creator continua no frame e o motion entra à volta. Risco médio: o Veo pode
-espelhar/deformar. Reserva para takes simples; para texto/objetos perto do rosto usa o
-`flow-motion-plate-prompt.md`. Lê primeiro `references/prompt-craft.md`.
+Usa quando o creator continua no frame e o motion entra à volta. O **Omni** edita footage
+real preservando o sujeito, mas pode espelhar/deformar — reserva para takes simples; para
+texto/objetos perto do rosto usa o `flow-motion-plate-prompt.md`. Lê primeiro
+`references/prompt-craft.md`.
+
+**Inputs a subir no Omni:** o `take_NN.mp4` (vídeo) + o áudio original + (opcional) uma
+imagem de referência de estilo.
 
 ## Estrutura a preencher (inglês, 1 por take)
 
@@ -23,6 +27,7 @@ TIMING BEATS: 0-1.5s <entra> · 1.5-4s <destaca/holds> · 4-<DUR>s <sai suave>.
 PALETTE: <hex do preset/design.md, 1 acento forte>.
 TYPOGRAPHY: <só se decorativo; senão "no on-screen text — text added in post">.
 SFX: <opcional>.
+AUDIO: keep the original creator voice in sync (uploaded), natural room ambience only, no music unless asked.
 NEGATIVE: no flat caption-only design, no single big word over the person, no emoji, no
 clipart sparkles, no app/tool watermark, no mirrored or flipped text, no backwards or
 gibberish letters, no warped face, no deformed hands, no extra fingers, no changing the

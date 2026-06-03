@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""build_project.py — pipeline completo: video -> pasta de projeto pronta para o Flow.
+"""build_project.py — pipeline completo: video -> pasta de projeto pronta para o Flow (Gemini Omni Flash).
 
 Passos:
   1. transcribe.py  -> words.json   (backend plugavel)
@@ -75,20 +75,22 @@ README = """# {project}
 Projeto gerado pela skill **motion-takes** a partir de `{video}`.
 
 ## Estrutura
-- `takes/`      — clips de video cortados (<= {max}s), prontos para upload no Google Flow
+- `takes/`      — clips de video cortados (<= {max}s), prontos para o Google Flow (Omni)
 - `frames/`     — 1o frame de cada take (referencia visual)
-- `prompts/`    — 1 prompt de motion por take (preenchido pela skill)
+- `prompts/`    — 1 prompt de motion (Gemini Omni Flash) por take (preenchido pela skill)
 - `transcript.txt` — transcricao completa
 - `words.json`  — transcricao com timestamps por palavra
 - `takes.json`  — mapa dos takes (tempos + texto)
 - `project.yaml`— briefing + mapa dos takes
 
-## Como usar no Google Flow (manual)
+## Como usar no Google Flow / Gemini Omni Flash (manual)
 1. Abre o Google Flow e cria um novo projeto.
-2. Para cada take: faz upload de `takes/take_NN.mp4` e cola o prompt de `prompts/take_NN.txt`.
-3. Gera. Repete para todos os takes.
-4. Junta os takes gerados no CapCut. Se o audio gerado bugar, poe o audio
-   ORIGINAL por baixo e silencia o audio do take gerado (ver references/audio-fix.md).
+2. Overlay: sobe `takes/take_NN.mp4` (video) + o audio original + (opcional) imagem de
+   referencia. Motion-plate: gera a cena sem pessoa (so imagem de estilo). Cola o prompt
+   de `prompts/take_NN.txt`.
+3. Gera. Afina por edicao conversacional ("mesma cena, muda so X"). Repete para todos.
+4. Junta no CapCut: adiciona o texto critico e o audio ORIGINAL por baixo
+   (ver references/audio-fix.md). Enquadra contando com a watermark SynthID.
 
 {count} takes gerados.
 """
@@ -142,7 +144,7 @@ def build(args) -> dict:
 
 
 def main(argv=None):
-    ap = argparse.ArgumentParser(description="Pipeline video -> projeto de takes para o Flow.")
+    ap = argparse.ArgumentParser(description="Pipeline video -> projeto de takes para o Flow (Gemini Omni Flash).")
     ap.add_argument("video")
     ap.add_argument("--out", default=None, help="pasta do projeto (default: nome do video)")
     ap.add_argument("--backend", default=os.environ.get("MT_BACKEND", "elevenlabs"),

@@ -2,21 +2,22 @@
 name: motion-takes
 description: >-
   Use when the user wants to turn a raw talking-head/creator video into "takes"
-  for Google Flow motion design. Transcribes the video, cuts it into clips of up
-  to 10 seconds at natural speech pauses (never mid-sentence), extracts each take
-  plus a preview frame, runs a short art-direction briefing, and writes one Google
-  Flow motion prompt per take. It does NOT generate the motion and does NOT upload
-  to Flow — the user uploads the takes manually and pastes the prompts. Trigger on
-  requests like "corta este vídeo em takes", "gera os prompts pro Flow", "skill de
-  edição de motion", "cut my video for Google Flow".
+  for Google Flow motion design with Gemini Omni Flash. Transcribes the video, cuts
+  it into clips of up to 10 seconds at natural speech pauses (never mid-sentence),
+  extracts each take plus a preview frame, runs a short art-direction briefing, and
+  writes one cinematic Gemini Omni Flash motion prompt per take (overlay or motion
+  plate). It does NOT generate the motion and does NOT upload — the user uploads the
+  takes to Flow/Omni manually and pastes the prompts. Trigger on requests like "corta
+  este vídeo em takes", "gera os prompts pro Flow", "prompts pro Omni", "skill de
+  edição de motion", "cut my video for Google Flow / Gemini Omni".
 ---
 
 # motion-takes
 
 Transforma um vídeo bruto (creator a falar para a câmara) numa pasta de projeto
-pronta para o **Google Flow**: takes curtos cortados nas pausas certas + um prompt
-de motion por take. **A skill só corta e escreve prompts. Não gera motion nem faz
-upload** — isso é manual, no Flow.
+pronta para o **Google Flow (Gemini Omni Flash)**: takes curtos cortados nas pausas
+certas + um prompt de motion por take. **A skill só corta e escreve prompts. Não gera
+motion nem faz upload** — isso é manual, no Flow/Omni.
 
 ## O que esta skill faz e o que NÃO faz
 
@@ -103,9 +104,10 @@ Cada prompt DEVE ter (senão fica genérico):
   proíbe espelhar/inverter a cena.
 - O **negative prompt** por defeito (ver `prompt-craft.md`).
 
-**Texto exato é frágil no Veo** (espelha, troca letras). NÃO peças texto crítico (número de
-oferta, preço, CTA) ao modelo — gera só a animação/metáfora e diz ao utilizador para pôr o
-texto no CapCut. A **watermark** do Flow é da plataforma, não do prompt.
+**Texto exato ainda é frágil no Omni** (pode espelhar/trocar letras). NÃO peças texto
+crítico (número de oferta, preço, CTA) ao modelo — gera só a animação/metáfora e diz ao
+utilizador para pôr o texto no CapCut. A **watermark SynthID** do Omni é permanente (não
+sai por prompt nem export); enquadra contando com ela.
 
 Antes de gravar cada prompt, corre o **checklist anti-genérico** de `prompt-craft.md`. Se
 falhar, reescreve. Atualiza o `project.yaml`: `mode` de cada take + a secção `briefing`.
@@ -114,15 +116,18 @@ falhar, reescreve. Atualiza o `project.yaml`: `mode` de cada take + a secção `
 Diz ao utilizador, em resumo:
 - quantos takes, qual o **modo** de cada um (overlay vs motion-plate), onde está a pasta;
 - **gera 1 take piloto** (o herói) e, se quiser, 2 variantes A/B, antes de gerar tudo;
-- no Google Flow: overlay → upload de `takes/take_NN.mp4`; motion-plate → gera a cena sem
-  pessoa. Cola `prompts/take_NN.txt`. Sobe a imagem de referência quando fizer sentido.
+- no Google Flow (Omni): overlay → sobe `takes/take_NN.mp4` (vídeo) **+ o áudio original**
+  + imagem de referência opcional; motion-plate → gera a cena sem pessoa (só imagem de
+  referência de estilo). Cola `prompts/take_NN.txt`.
+- afina por **edição conversacional** do Omni ("mesma cena, muda só X, preserva o resto");
 - junta no CapCut: compõe os motion-plates, **adiciona o texto crítico** e põe o **áudio
-  original** por baixo (ver `references/audio-fix.md`). Corta/cobre a watermark se houver.
+  original** por baixo (ver `references/audio-fix.md`). Enquadra contando com a **watermark
+  SynthID** (não é removível).
 
 ## Ajustes finos (2ª passagem)
 Se o utilizador quiser "mais denso / mais zoom / trocar cenário / virar avatar", **não
-voltes a cortar** — basta reescrever os `prompts/take_NN.txt` afetados com a nova direção
-e pedir-lhe para regenerar esses takes no Flow.
+voltes a cortar** — reescreve os `prompts/take_NN.txt` afetados, OU usa a **edição
+conversacional do Omni** (mais rápido): "mesma cena, muda só <isto>, preserva o resto".
 
 ## Re-cortes
 Se os cortes não agradarem, ajusta `--max`, `--min` (take mínimo) ou `--pad` e volta a
@@ -130,7 +135,7 @@ correr `build_project.py` com `--words` (reutiliza a transcrição, não gasta A
 
 ## Referências
 - `references/prompt-craft.md` — **como escrever prompts ricos e anti-genéricos (lê 1º)**.
-- `references/google-flow.md` — limites e fluxo do Flow.
+- `references/google-omni.md` — Gemini Omni Flash: multimodal, prompt, SynthID, fluxo.
 - `references/audio-fix.md` — corrigir áudio no CapCut.
 - `references/install.md` — instalar dependências (Linux/macOS/Windows).
 - `templates/flow-overlay-prompt.md` — prompt de overlay (motion sobre o creator).

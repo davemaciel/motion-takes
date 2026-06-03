@@ -22,6 +22,7 @@ TIMING BEATS: 0-<t1>s <entra> · <t1>-<t2>s <transforma> · <t2>-<DUR>s <resolve
 PALETTE: <hex do preset/design.md, 1 acento forte>.
 CAMERA MOVE: <contínuo, lento e preciso — sem cortes bruscos>.
 SFX: <opcional>.
+AUDIO: subtle design sfx only, no speech, no music unless asked (voice/music added in post).
 NEGATIVE: no people, no faces, no hands, no readable paragraph text, no emoji, no clipart,
 no app/tool watermark, no mirrored/gibberish text, no extra colors beyond the palette,
 no busy clutter.
