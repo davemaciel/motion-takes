@@ -12,8 +12,9 @@ gerar prompts", mas construída do zero e aberta.
 1. Transcreve o vídeo com timestamps por palavra (ElevenLabs / OpenAI / Whisper local).
 2. Corta em takes **≤ 10s nas pausas naturais** (nunca parte a fala).
 3. Extrai `takes/*.mp4` + `frames/*.jpg` e cria `prompts/*.txt` (vazios).
-4. Faz um **briefing** de arte (layout, overlay vs só-motion, preset/design.md, objetivo).
-5. Escreve **1 prompt de Flow por take**.
+4. Faz um **briefing** de arte (layout, overlay vs motion-plate, preset/design.md, objetivo).
+5. Escreve **1 prompt de Flow por take** — cinematográfico e anti-genérico (ver
+   `references/prompt-craft.md`).
 
 ## Início rápido
 ```bash
@@ -27,7 +28,7 @@ Flow"* — o `SKILL.md` guia o resto (briefing + prompts).
 - `SKILL.md` — instruções que o agente (Copilot CLI / Claude Code) segue.
 - `scripts/` — `build_project.py` (pipeline), `transcribe.py`, `cut_takes.py`, `extract_takes.py`.
 - `presets/` — estilos de motion (`apple-clean`, `bold-tech`).
-- `templates/` — `flow-prompt.md`, `design.md` (brandbook).
+- `templates/` — `flow-overlay-prompt.md`, `flow-motion-plate-prompt.md`, `design.md`.
 - `references/` — `install.md`, `google-flow.md`, `audio-fix.md`.
 - `tests/` — testes do algoritmo de corte (`python3 -m unittest discover tests`).
 - `DESIGN.md` — arquitetura.

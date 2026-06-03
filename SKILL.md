@@ -61,16 +61,25 @@ Isto cria: `takes/`, `frames/`, `prompts/` (vazios), `transcript.txt`, `words.js
 
 ### 2. Ler e entender o contexto
 - Lê `transcript.txt` (o que o creator diz) e `takes.json` (tempos + texto de cada take).
-- Olha 1–2 `frames/*.jpg` se precisares de contexto visual (cenário, enquadramento).
+- **Abre TODOS os `frames/*.jpg`** e, para cada take, anota: onde está o rosto, onde estão
+  as mãos, se há logos/boné/texto no frame, que **zonas estão livres** (laterais, topo,
+  fundo), a direção da luz e a profundidade. Isto decide as safe zones dos prompts.
 - Resume em 1 frase o tema do vídeo e o objetivo aparente.
+- **Lê `references/prompt-craft.md` antes de escrever qualquer prompt.** É o que separa um
+  resultado cinematográfico de "texto chapado com emoji".
 
 ### 3. Briefing (perguntas — UMA de cada vez)
 Faz estas perguntas ao utilizador, uma a uma, e regista as respostas no `project.yaml`
 (secção `briefing`). Oferece sempre um default sensato:
 
 1. **Layout** do vídeo final (ex.: horizontal 16:9, creator centralizado).
-2. **Modo dos takes**: `só-motion`, `overlay` (motion sobreposto ao creator) ou
-   `misto` (uns só-motion, outros overlay). Se `misto`, decidam por take.
+2. **Modo por take** (classificação de risco — ver `references/prompt-craft.md`):
+   - `overlay` (motion sobre o creator) — só para takes de **baixo risco** (luz/linhas/
+     partículas nas laterais/fundo).
+   - `motion-plate` (cena gerada **sem pessoa**, composta depois no CapCut) — para o take
+     **herói** e qualquer take de **alto risco**: texto grande, logos, ou elementos perto
+     do rosto/mãos. Mais controlado e profissional.
+   - Em geral será `misto`. Decidam por take.
 3. **Estilo / preset**: lista os ficheiros de `presets/` (ex.: `apple-clean`). O
    utilizador escolhe um, ou indica um `design.md` próprio da marca.
 4. **design.md** da marca (opcional): se existir, lê-o e respeita paleta, tipografia
@@ -80,29 +89,35 @@ Faz estas perguntas ao utilizador, uma a uma, e regista as respostas no `project
 Se o utilizador pedir para a IA decidir tudo, escolhe defaults coerentes e segue.
 
 ### 4. Escrever os prompts (um por take)
-Para **cada** take, escreve um prompt de Google Flow em `prompts/take_NN.txt` usando:
-- o **texto do take** (o que é dito nesse trecho) → o motion deve ilustrar isso;
-- o **preset** escolhido (lê `presets/<nome>.md`) + o `design.md` se existir;
-- o **modo** do take (só-motion vs overlay);
-- a estrutura recomendada em `templates/flow-prompt.md`.
+**Lê `references/prompt-craft.md` primeiro.** Para **cada** take, escreve um prompt rico em
+`prompts/take_NN.txt` usando o template do modo do take:
+- `overlay` → `templates/flow-overlay-prompt.md`
+- `motion-plate` → `templates/flow-motion-plate-prompt.md`
 
-Regras dos prompts:
-- 1 prompt = 1 take. Escreve para o **clip específico** (duração real do take).
-- Descreve elementos que reforcem a fala (ex.: ícone de código quando ele diz "código").
-- Em modo `overlay`, deixa claro que o creator continua no frame e o motion entra
-  por cima (cantos, topo, laterais), sem tapar o rosto.
-- Em modo `só-motion`, descreve a cena 100% gerada.
-- Mantém coerência visual entre takes (mesma paleta/estilo do preset/design.md).
-- Português ou inglês conforme a preferência do utilizador (Flow aceita ambos).
+Cada prompt DEVE ter (senão fica genérico):
+- **Uma metáfora visual concreta** ligada à frase do take — **nunca** só texto/legenda.
+- **SHOT** (lente + câmara), **LIGHT**, **MATERIALS/RENDER** — não só "minimalista".
+- **2–4 beats de tempo** dentro do take (entra → destaca → sai).
+- **Paleta exata** (hex) do preset/`design.md`, máx 1 acento forte.
+- **Safe zones** + preservação do creator (modo overlay): nada sobre rosto/olhos/boca/mãos;
+  proíbe espelhar/inverter a cena.
+- O **negative prompt** por defeito (ver `prompt-craft.md`).
 
-Atualiza o `project.yaml`: preenche `mode` de cada take e a secção `briefing`.
+**Texto exato é frágil no Veo** (espelha, troca letras). NÃO peças texto crítico (número de
+oferta, preço, CTA) ao modelo — gera só a animação/metáfora e diz ao utilizador para pôr o
+texto no CapCut. A **watermark** do Flow é da plataforma, não do prompt.
+
+Antes de gravar cada prompt, corre o **checklist anti-genérico** de `prompt-craft.md`. Se
+falhar, reescreve. Atualiza o `project.yaml`: `mode` de cada take + a secção `briefing`.
 
 ### 5. Entregar
 Diz ao utilizador, em resumo:
-- quantos takes, onde está a pasta;
-- que abra o Google Flow, faça upload de `takes/take_NN.mp4` e cole `prompts/take_NN.txt`;
-- que junte tudo no CapCut e, se o áudio gerado bugar, ponha o áudio original por baixo
-  (ver `references/audio-fix.md`).
+- quantos takes, qual o **modo** de cada um (overlay vs motion-plate), onde está a pasta;
+- **gera 1 take piloto** (o herói) e, se quiser, 2 variantes A/B, antes de gerar tudo;
+- no Google Flow: overlay → upload de `takes/take_NN.mp4`; motion-plate → gera a cena sem
+  pessoa. Cola `prompts/take_NN.txt`. Sobe a imagem de referência quando fizer sentido.
+- junta no CapCut: compõe os motion-plates, **adiciona o texto crítico** e põe o **áudio
+  original** por baixo (ver `references/audio-fix.md`). Corta/cobre a watermark se houver.
 
 ## Ajustes finos (2ª passagem)
 Se o utilizador quiser "mais denso / mais zoom / trocar cenário / virar avatar", **não
@@ -114,9 +129,11 @@ Se os cortes não agradarem, ajusta `--max`, `--min` (take mínimo) ou `--pad` e
 correr `build_project.py` com `--words` (reutiliza a transcrição, não gasta API).
 
 ## Referências
+- `references/prompt-craft.md` — **como escrever prompts ricos e anti-genéricos (lê 1º)**.
 - `references/google-flow.md` — limites e fluxo do Flow.
 - `references/audio-fix.md` — corrigir áudio no CapCut.
 - `references/install.md` — instalar dependências (Linux/macOS/Windows).
-- `templates/flow-prompt.md` — anatomia de um bom prompt de Flow.
+- `templates/flow-overlay-prompt.md` — prompt de overlay (motion sobre o creator).
+- `templates/flow-motion-plate-prompt.md` — prompt de motion plate (sem pessoa, p/ compor).
 - `templates/design.md` — modelo de brandbook.
 - `DESIGN.md` — arquitetura da skill.

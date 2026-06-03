@@ -1,36 +1,44 @@
 # Preset de motion: Apple Clean
 
-Direção de arte minimalista inspirada nas keynotes e páginas de produto da Apple.
-Usar quando o utilizador quer algo premium, calmo e sofisticado.
+Premium, calmo e **cinematográfico** — como um reveal de keynote/produto Apple. NÃO é
+"tela branca vazia com uma palavra". É rico, mas restrained: profundidade, vidro, luz a
+varrer, câmara lenta e precisa. Descreve sempre de forma **operacional** (abaixo), não só
+"minimalista" — o modelo interpreta "minimalista" como vazio.
 
-## Princípios
-- **Espaço negativo** generoso. Menos elementos, mais respiração.
-- **Movimento suave**: easing tipo `ease-in-out`, sem ricochetes nem motion brusco.
-- **Profundidade subtil**: parallax leve, sombras suaves, blur de profundidade.
-- **Foco num elemento de cada vez** — entra, destaca, sai. Nada de poluição.
+## Tradução operacional (usa estas frases no prompt)
+- premium product-keynote motion
+- macro glass layers, translucent frosted panels
+- soft volumetric light sweeps, gentle caustics
+- shallow depth of field, slow parallax, slow dolly/orbit
+- precise 3D / extruded typography catching light (só texto decorativo)
+- reflective, translucent materials; subtle depth blur
+- restrained cinematic pacing, ease-in-out, no bounce
 
 ## Paleta
-- Fundo: branco quase puro (`#F5F5F7`) ou preto profundo (`#0B0B0F`).
-- Texto: cinza-escuro (`#1D1D1F`) sobre claro, ou branco sobre escuro.
-- Acento: 1 cor só, dessaturada (azul `#0071E3` ou laranja suave). Nunca > 1 acento.
+- Fundo: branco quase puro `#F5F5F7` **ou** preto profundo `#0D0D0D`.
+- Texto/elementos: cinza-escuro `#1D1D1F` sobre claro, ou branco sobre escuro.
+- **1 acento só**, dessaturado: azul `#0071E3` (ou laranja suave). Nunca >1 acento.
 
-## Tipografia
-- Sans-serif geométrica/neo-grotesca (estilo SF Pro / Helvetica Neue).
-- Títulos grandes, peso médio. Tracking ligeiramente apertado.
-- Hierarquia clara: 1 título, 1 subtítulo, nada de blocos de texto.
+## Movimento e câmara
+- Transições 0.4–0.8s, holds 1–2s. Movimento contínuo.
+- Câmara: dolly-in/out lento, leve órbita, macro com depth of field raso. Sem cortes secos.
+- Secondary motion subtil: reflexos a deslizar, partículas finas que FORMAM algo (não chuva
+  de brilho aleatória).
 
-## Ritmo
-- Transições de 0.4–0.8s. Hold dos elementos 1–2s.
-- Câmara: zoom-in/zoom-out lentos e contínuos; pans curtos.
+## Conceito por take
+- Sempre **uma metáfora visual** (objeto/vidro/luz que ilustra a frase), não legenda solta.
+- Ex.: "4 dias" → 4 painéis de vidro montam-se; "joga pra sempre" → biblioteca que se
+  estende em profundidade; "na hora" → um check que se desenha numa pincelada de luz.
 
-## Do / Don't
-- ✅ Gradientes muito subtis, vidro fosco, reflexos discretos.
-- ✅ Ícones de linha simples, monocromáticos.
-- ❌ Cores berrantes, múltiplos acentos, partículas exageradas.
-- ❌ Texto a mais, fontes decorativas, motion "saltitão".
+## Proibido (anti-cliché Apple)
+- ❌ flat caption-only / uma palavra grande no centro sobre a pessoa
+- ❌ emoji ou sparkle clipart
+- ❌ generic app-commercial minimalism / empty white screen
+- ❌ >1 acento, cores berrantes, motion saltitão
+- ❌ texto crítico gerado no modelo (faz em pós)
 
-## Tradução para prompt (overlay)
-> Clean Apple-style motion graphics overlaid on the creator (centered, untouched
-> face). Minimal line icons and short large-type captions enter softly from the
-> edges with gentle ease-in-out, single desaturated accent color, generous
-> negative space, subtle depth blur. Calm premium pace.
+## Frase pronta (motion plate)
+> Premium product-keynote motion plate, no person: macro frosted-glass layers and a single
+> brand-blue accent element assembling with soft volumetric light sweeps, shallow depth of
+> field, slow parallax dolly, reflective translucent materials, restrained cinematic pacing,
+> 4k hyperreal. Generous negative space in the lower third for compositing.

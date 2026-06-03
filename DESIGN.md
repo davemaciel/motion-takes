@@ -62,7 +62,8 @@ Para cada take, `ffmpeg -ss start -to end` **com re-encode** (corte preciso ao f
 ### Presets e design.md
 - `presets/*.md`: estilos de motion (ex.: `apple-clean`). Definem direção de arte, ritmo, tipografia, do/don't.
 - `templates/design.md`: modelo de brandbook do utilizador (paleta, fontes, layout).
-- `templates/flow-prompt.md`: estrutura recomendada de um bom prompt de Flow.
+- `templates/flow-overlay-prompt.md` / `templates/flow-motion-plate-prompt.md`: estrutura recomendada de um bom prompt de Flow.
+- `references/prompt-craft.md`: guia anti-genérico para prompts ricos.
 
 ## Portabilidade
 - Scripts em Python stdlib + ffmpeg. Funciona em Linux e macOS. Notas de Windows em `references/`.
