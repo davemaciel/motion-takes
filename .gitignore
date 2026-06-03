@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+*.mp4
+*.jpg
+*.mp3
+*.wav
+words.json
+takes.json
+/projeto*/
+/out*/
+.env
